@@ -145,7 +145,7 @@ rm -rf *.zip
 # Download and install lazylibrarian
 # https://github.com/lazylibrarian/LazyLibrarian
 cd $dl_Dir
-git clone https://github.com/lazylibrarian/LazyLibrarian.git /$app_Dir/lazylibrarian/
+git clone https://github.com/lazylibrarian/LazyLibrarian.git $app_Dir/lazylibrarian/
 
 
 # Download and install nzbGet
