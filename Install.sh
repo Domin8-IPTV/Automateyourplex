@@ -20,7 +20,7 @@ app_Dir=/opt
 dl_Dir=/home/$user/Downloads
 
 ## Don't touch this one
-current='pwd'
+target_PWD=$(readlink -f .)
 
 ##############################  End Of Section ################################
 # Program Download links, for easier managment
@@ -229,8 +229,8 @@ sudo chmod -R 755 $driveArray
 ## Your designated $user
 
 ## Move service files and enable them
-cd $current
-sudo mv ConfigFiles/systemd_Services/* /etc/systemd/system/
+cd $target_PWD
+sudo cp ConfigFiles/systemd_Services/* /etc/systemd/system/
 
 sudo systemctl enable DATA-FUSE-Rclone.mount
 sudo systemctl enable deluge-web.service
@@ -242,6 +242,11 @@ sudo systemctl enable nzbget.service
 sudo systemctl enable ombi.service
 sudo systemctl enable radarr.service
 sudo systemctl enable rclone.service
+
+sudo cp ConfigFiles/init.d_Services/* /etc/init.d/
+sudo systemctl enable lazylibrarian
+sudo systemctl enable mylar
+sudo systemctl enable nzbdrone
 
 ##############################  End Of Section ################################
 
