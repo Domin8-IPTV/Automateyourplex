@@ -32,6 +32,7 @@ dl_Radarr=https://github.com/Radarr/Radarr/releases/download/v0.2.0.299/Radarr.d
 
 dl_Jackett=https://github.com/Jackett/Jackett/releases/download/v0.11.659/Jackett.Binaries.LinuxAMDx64.tar.gz
 
+dl_Ombi=https://github.com/tidusjar/Ombi/releases/download/v3.0.4680/linux.tar.gz
 ##############################  End Of Section ################################
 ## This section installs depencdencies for all applications
 sudo apt update
@@ -135,7 +136,7 @@ sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb
 #rclone config
 cd $dl_Dir
-rm -rf rclone*
+rm -rf *.zip
 
 
 # Download and install lazylibrarian
@@ -172,7 +173,7 @@ sudo apt-get install deluged deluge-web deluge-console -y
 # https://github.com/Lidarr/Lidarr/wiki/Installation
 wget $dl_Lidarr
 tar -xzvf Lidarr.develop.0.6.2.883.linux.tar.gz -C $app_Dir/
-rm -rf Lidarr*
+rm -rf *.gz
 
 
 # Download and install Mylar
@@ -185,7 +186,7 @@ git clone https://github.com/evilhero/mylar -b development /$app_Dir/Mylar
 # https://github.com/Radarr/Radarr
 wget $dl_Radarr
 tar -xzvf Radarr.develop.0.2.0.299.linux.tar.gz -C $app_Dir/
-rm -rf Radarr*
+rm -rf *.gz
 
 
 # Download and install sickbeard_mp4_automator
@@ -201,8 +202,13 @@ sudo apt-get install mergerfs -y
 # Download and install Jackett
 wget $dl_Jackett
 tar -xzvf Jackett.Binaries.LinuxAMDx64.tar.gz -C $app_Dir/
-rm -rf Jackett*
+rm -rf *.gz
 
+
+# Download and install Ombi
+wget $dl_Ombi
+tar -xzf linux.tar.gz -C $app_Dir/Ombi/
+rm -rf *.gz
 ##############################  End Of Section ################################
 
 ## Reset folder permissions to $user
@@ -215,3 +221,26 @@ sudo chmod -R 755 $app_Dir
 sudo chmod -R 755 $driveArray
 
 ##############################  End Of Section ################################
+
+## Current setup is temporary, in the future it will write the script utilizing
+## Your designated $user
+
+## Move service files and enable them
+sudo mv /systemd_Services/* /etc/systemd/system/
+
+sudo systemctl enable DATA-FUSE-Rclone.mount
+sudo systemctl enable deluge-web.service
+sudo systemctl enable deluged.service
+sudo systemctl enable jackett.service
+sudo systemctl enable lidarr.service
+sudo systemctl enable media.service
+sudo systemctl enable nzbget.service
+sudo systemctl enable ombi.service
+sudo systemctl enable radarr.service
+sudo systemctl enable rclone.service
+
+##############################  End Of Section ################################
+
+## Everything is completed, reboot and all will be working upon startup.
+
+sudo reboot now
