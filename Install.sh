@@ -226,7 +226,7 @@ sudo chmod -R 755 $driveArray
 ## Your designated $user
 
 ## Move service files and enable them
-sudo mv /systemd_Services/* /etc/systemd/system/
+sudo mv ConfigFiles/systemd_Services/* /etc/systemd/system/
 
 sudo systemctl enable DATA-FUSE-Rclone.mount
 sudo systemctl enable deluge-web.service
