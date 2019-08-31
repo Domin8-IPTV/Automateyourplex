@@ -16,11 +16,28 @@ dl_Dir=/home/$user/Downloads
 
 ##############################  End Of Section ################################
 ## This section installs depencdencies for all applications
-## Completed application dependency list as follows;
-## Mylar, Radarr
-sudo apt-get update
-sudo apt-get install python python-cherrypy git libmono-cil-dev curl mediainfo -y
 
+sudo apt install gnupg ca-certificates -y
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+sudo apt update
+
+sudo apt-get install sqlite3 libsqlite3-dev python python-cherrypy git libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0-dev libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
+
+
+python -m pip install --upgrade pip setuptools
+pip install requests
+pip install requests[security]
+pip install requests-cache
+pip install babelfish
+pip install "guessit<2"
+pip uninstall stevedore
+pip install stevedore==1.19.1
+pip install "subliminal<2"
+pip install python-dateutil
+pip install deluge-client
+pip install qtfaststart
+pip install python-qbittorrent
 
 
 
@@ -76,6 +93,7 @@ sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb
 #rclone config
 
+
 # Download and install lazylibrarian
 # https://github.com/lazylibrarian/LazyLibrarian
 cd $dl_Dir
@@ -110,28 +128,35 @@ sudo apt-get install deluged deluge-web deluge-console -y
 # https://github.com/Lidarr/Lidarr/wiki/Installation
 wget https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz
 tar -xzvf Lidarr.develop.0.6.2.883.linux.tar.gz -C $app_Dir/
+rm -rf Lidarr*
 
 
 # Download and install Mylar
 # https://github.com/evilhero/mylar
 cd $dl_Dir
-rm -rf Lidarr*
-git clone https://github.com/evilhero/mylar -b development /opt/Mylar
+git clone https://github.com/evilhero/mylar -b development /$app_Dir/Mylar
 
 
 # Download and install Radarr
 # https://github.com/Radarr/Radarr
 wget https://github.com/Radarr/Radarr/releases/download/v0.2.0.299/Radarr.develop.0.2.0.299.linux.tar.gz
-tar -xzvf Radarr.develop.0.2.0.299.linux.tar.gz -C /opt/
+tar -xzvf Radarr.develop.0.2.0.299.linux.tar.gz -C $app_Dir/
+rm -rf Radarr*
 
 
 # Download and install sickbeard_mp4_automator
 # https://github.com/mdhiggins/sickbeard_mp4_automator
 cd $dl_Dir
-rm -rf Radarr*
-git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git /opt/mp4_automator
+git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git $app_Dir/mp4_automator
+
 
 # Download and install mergerfs
 sudo apt-get install mergerfs -y
+
+
+# Download and install Jackett
+wget https://github.com/Jackett/Jackett/releases/download/v0.11.659/Jackett.Binaries.LinuxAMDx64.tar.gz
+tar -xzvf Jackett.Binaries.LinuxAMDx64.tar.gz $app_Dir/
+rm -rf Jackett*
 
 ##############################  End Of Section ################################
