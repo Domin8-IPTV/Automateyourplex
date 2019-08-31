@@ -131,4 +131,7 @@ cd $dl_Dir
 rm -rf Radarr*
 git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git /opt/mp4_automator
 
+# Download and install mergerfs
+sudo apt-get install mergerfs -y
+
 ##############################  End Of Section ################################
