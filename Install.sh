@@ -55,7 +55,7 @@ mkdir nzbget deluge
 sudo chown -R $user.$user $app_Dir
 sudo chmod -R 755 $app_Dir
 cd $app_Dir
-mkdir Lidarr Mp4_automator nzbget Mylar Ombi Radarr jackett NzbDrone
+mkdir Lidarr mp4_automator nzbget Mylar Ombi Radarr jackett NzbDrone
 
 ##############################  End Of Section ################################
 
@@ -123,5 +123,12 @@ git clone https://github.com/evilhero/mylar -b development /opt/Mylar
 # https://github.com/Radarr/Radarr
 wget https://github.com/Radarr/Radarr/releases/download/v0.2.0.299/Radarr.develop.0.2.0.299.linux.tar.gz
 tar -xzvf Radarr.develop.0.2.0.299.linux.tar.gz -C /opt/
+
+
+# Download and install sickbeard_mp4_automator
+# https://github.com/mdhiggins/sickbeard_mp4_automator
+cd $dl_Dir
+rm -rf Radarr*
+git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git /opt/mp4_automator
 
 ##############################  End Of Section ################################
