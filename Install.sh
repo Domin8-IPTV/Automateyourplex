@@ -34,28 +34,28 @@ dl_Jackett=https://github.com/Jackett/Jackett/releases/download/v0.11.659/Jacket
 
 ##############################  End Of Section ################################
 ## This section installs depencdencies for all applications
-
+sudo apt update
 sudo apt install gnupg ca-certificates -y
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 sudo apt update
 
-sudo apt-get install python-setuptools python3 sqlite3 libsqlite3-dev python python-cherrypy git mergerfs libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0-dev libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
-sudo apt-get upgrade python3
+sudo apt-get install python3-pip python-setuptools python3 sqlite3 libsqlite3-dev python python-cherrypy git mergerfs libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0 libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
+sudo apt-get upgrade python3 -y
 
 python -m pip install --upgrade pip setuptools
-pip install requests
-pip install requests[security]
-pip install requests-cache
-pip install babelfish
-pip install "guessit<2"
-pip uninstall stevedore
-pip install stevedore==1.19.1
-pip install "subliminal<2"
-pip install python-dateutil
-pip install deluge-client
-pip install qtfaststart
-pip install python-qbittorrent
+pip3 install requests
+pip3 install requests[security]
+pip3 install requests-cache
+pip3 install babelfish
+pip3 install "guessit<2"
+pip3 uninstall stevedore -y
+pip3 install stevedore==1.19.1
+pip3 install "subliminal<2"
+pip3 install python-dateutil
+pip3 install deluge-client
+pip3 install qtfaststart
+pip3 install python-qbittorrent
 
 
 
@@ -148,7 +148,7 @@ git clone https://github.com/lazylibrarian/LazyLibrarian.git /$app_Dir/lazylibra
 # https://nzbget.net/
 cd $dl_Dir
 wget $dl_Nzbget
-sh nzbget-latest-bin-linux.run --destdir /$app_Dir/nzbGet
+sh nzbget-latest-bin-linux.run --destdir /$app_Dir/nzbget
 
 
 # Download and install sonarr
@@ -200,7 +200,18 @@ sudo apt-get install mergerfs -y
 
 # Download and install Jackett
 wget $dl_Jackett
-tar -xzvf Jackett.Binaries.LinuxAMDx64.tar.gz $app_Dir/
+tar -xzvf Jackett.Binaries.LinuxAMDx64.tar.gz -C $app_Dir/
 rm -rf Jackett*
+
+##############################  End Of Section ################################
+
+## Reset folder permissions to $user
+sudo chown -R $user.$user $rootpath
+sudo chown -R $user.$user $app_Dir
+sudo chown -R $user.$user $driveArray
+
+sudo chmod -R 755 $rootpath
+sudo chmod -R 755 $app_Dir
+sudo chmod -R 755 $driveArray
 
 ##############################  End Of Section ################################
