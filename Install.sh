@@ -44,7 +44,7 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328
 echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 sudo apt update
 
-sudo apt-get install python3-pip python-setuptools python3 sqlite3 libsqlite3-dev python python-cherrypy git mergerfs libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0 libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
+sudo apt-get install unzip python3-pip python-setuptools python3 sqlite3 libsqlite3-dev python python-cherrypy git mergerfs libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0 libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
 sudo apt-get upgrade python3 -y
 
 python -m pip3 install --upgrade pip3 setuptools
@@ -244,10 +244,18 @@ sudo systemctl enable radarr.service
 sudo systemctl enable rclone.service
 
 sudo cp ConfigFiles/init.d_Services/* /etc/init.d/
-sudo systemctl enable lazylibrarian
-sudo systemctl enable mylar
-sudo systemctl enable nzbdrone
 
+sudo chmod +x /etc/init.d/lazylibrarian
+sudo chmod +x /etc/init.d/mylar
+sudo chmod +x /etc/init.d/nzbdrone
+
+sudo update-rc.d lazylibrarian defaults
+sudo update-rc.d mylar defaults
+sudo update-rc.d nzbdrone defaults
+
+sudo update-rc.d lazylibrarian enable
+sudo update-rc.d mylar enable
+sudo update-rc.d nzbdrone enable
 ##############################  End Of Section ################################
 
 ## Everything is completed, reboot and all will be working upon startup.
