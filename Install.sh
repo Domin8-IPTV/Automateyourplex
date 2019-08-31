@@ -243,4 +243,4 @@ sudo systemctl enable rclone.service
 
 ## Everything is completed, reboot and all will be working upon startup.
 
-sudo reboot now
+#sudo reboot now
