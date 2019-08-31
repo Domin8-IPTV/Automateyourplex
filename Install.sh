@@ -47,7 +47,7 @@ sudo apt update
 sudo apt-get install python3-pip python-setuptools python3 sqlite3 libsqlite3-dev python python-cherrypy git mergerfs libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0 libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
 sudo apt-get upgrade python3 -y
 
-python -m pip install --upgrade pip setuptools
+python -m pip3 install --upgrade pip3 setuptools
 pip3 install requests
 pip3 install requests[security]
 pip3 install requests-cache
