@@ -3,6 +3,12 @@
 ## Set your root download path here (ex. rootpath=/DATA)
 rootpath=/DATA
 
+## Set the drive path to a secondary drive, fuse, raid. On my setup this is a raid, and the purpose of This
+## Is so when rclone downloads files they go to this drive, sparing needless writes on my ssd.
+## This also benefits by allowing my torrents to continue seeding on this larger raid.
+## (ex. driveArray=/RAID
+driveArray=/RAID
+
 ## Set the user that EVERYTHING will run under here (ex. user=plex)
 user=plex
 
@@ -13,6 +19,18 @@ app_Dir=/opt
 ## Set the temporary Download location here (ex. /home/$user/Downloads)
 dl_Dir=/home/$user/Downloads
 
+##############################  End Of Section ################################
+# Program Download links, for easier managment
+
+dl_Rclone=https://downloads.rclone.org/rclone-current-linux-amd64.zip
+
+dl_Nzbget=https://nzbget.net/download/nzbget-latest-bin-linux.run
+
+dl_Lidarr=https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz
+
+dl_Radarr=https://github.com/Radarr/Radarr/releases/download/v0.2.0.299/Radarr.develop.0.2.0.299.linux.tar.gz
+
+dl_Jackett=https://github.com/Jackett/Jackett/releases/download/v0.11.659/Jackett.Binaries.LinuxAMDx64.tar.gz
 
 ##############################  End Of Section ################################
 ## This section installs depencdencies for all applications
@@ -22,8 +40,8 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328
 echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 sudo apt update
 
-sudo apt-get install sqlite3 libsqlite3-dev python python-cherrypy git libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0-dev libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
-
+sudo apt-get install python-setuptools python3 sqlite3 libsqlite3-dev python python-cherrypy git mergerfs libmono-cil-dev curl mediainfo liblttng-ust0 libcurl4 libssl1.0.0-dev libkrb5-3 zlib1g libicu60 libunwind8 libuuid1 -y
+sudo apt-get upgrade python3
 
 python -m pip install --upgrade pip setuptools
 pip install requests
@@ -74,6 +92,30 @@ sudo chmod -R 755 $app_Dir
 cd $app_Dir
 mkdir Lidarr mp4_automator nzbget Mylar Ombi Radarr jackett NzbDrone
 
+
+## Now supplemental directories are created
+sudo mkdir $driveArray
+sudo chown -R $user.$user $driveArray
+sudo chmod -R 755 $driveArray
+cd $driveArray
+mkdir FUSE tempStorage
+cd FUSE
+mkdir mergerfs
+cd mergerfs
+mkdir gdrive
+cd $driveArray/tempStorage
+mkdir deluge lazylibrarian lidarr radarr rclone_tmp_upload Sonarr
+
+## Create symbolic links, maintaining organization and putting everything deluged
+## On to your $driveArray
+
+ln -s $driveArray/tempStorage/lazylibrarian $rootpath/lazylibrarian/deluge
+ln -s $driveArray/tempStorage/sonarr $rootpath/sonarr/deluge
+ln -s $driveArray/tempStorage/lidarr $rootpath/lidarr/deluge
+ln -s $driveArray/tempStorage/mylar $rootpath/mylar/deluge
+ln -s $driveArray/tempStorage/radarr $rootpath/radarr/deluge
+ln -s $driveArray/tempStorage/deluge $rootpath/deluge/Completed
+
 ##############################  End Of Section ################################
 
 
@@ -82,7 +124,7 @@ mkdir Lidarr mp4_automator nzbget Mylar Ombi Radarr jackett NzbDrone
 # Download and install Rclone
 # https://rclone.org/install/
 cd $dl_Dir
-wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
+wget $dl_Rclone
 unzip rclone-current-linux-amd64.zip
 cd rclone-*-linux-amd64
 sudo cp rclone /usr/bin/
@@ -92,18 +134,20 @@ sudo mkdir -p /usr/local/share/man/man1
 sudo cp rclone.1 /usr/local/share/man/man1/
 sudo mandb
 #rclone config
+cd $dl_Dir
+rm -rf rclone*
 
 
 # Download and install lazylibrarian
 # https://github.com/lazylibrarian/LazyLibrarian
 cd $dl_Dir
-rm -rf rclone*
 git clone https://github.com/lazylibrarian/LazyLibrarian.git /$app_Dir/lazylibrarian/
 
 
 # Download and install nzbGet
 # https://nzbget.net/
-wget https://nzbget.net/download/nzbget-latest-bin-linux.run
+cd $dl_Dir
+wget $dl_Nzbget
 sh nzbget-latest-bin-linux.run --destdir /$app_Dir/nzbGet
 
 
@@ -126,7 +170,7 @@ sudo apt-get install deluged deluge-web deluge-console -y
 
 # Download and install lidarr
 # https://github.com/Lidarr/Lidarr/wiki/Installation
-wget https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz
+wget $dl_Lidarr
 tar -xzvf Lidarr.develop.0.6.2.883.linux.tar.gz -C $app_Dir/
 rm -rf Lidarr*
 
@@ -139,7 +183,7 @@ git clone https://github.com/evilhero/mylar -b development /$app_Dir/Mylar
 
 # Download and install Radarr
 # https://github.com/Radarr/Radarr
-wget https://github.com/Radarr/Radarr/releases/download/v0.2.0.299/Radarr.develop.0.2.0.299.linux.tar.gz
+wget $dl_Radarr
 tar -xzvf Radarr.develop.0.2.0.299.linux.tar.gz -C $app_Dir/
 rm -rf Radarr*
 
@@ -155,7 +199,7 @@ sudo apt-get install mergerfs -y
 
 
 # Download and install Jackett
-wget https://github.com/Jackett/Jackett/releases/download/v0.11.659/Jackett.Binaries.LinuxAMDx64.tar.gz
+wget $dl_Jackett
 tar -xzvf Jackett.Binaries.LinuxAMDx64.tar.gz $app_Dir/
 rm -rf Jackett*
 
