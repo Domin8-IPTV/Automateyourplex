@@ -19,6 +19,9 @@ app_Dir=/opt
 ## Set the temporary Download location here (ex. /home/$user/Downloads)
 dl_Dir=/home/$user/Downloads
 
+## Don't touch this one
+current='pwd'
+
 ##############################  End Of Section ################################
 # Program Download links, for easier managment
 
@@ -226,6 +229,7 @@ sudo chmod -R 755 $driveArray
 ## Your designated $user
 
 ## Move service files and enable them
+cd $current
 sudo mv ConfigFiles/systemd_Services/* /etc/systemd/system/
 
 sudo systemctl enable DATA-FUSE-Rclone.mount
