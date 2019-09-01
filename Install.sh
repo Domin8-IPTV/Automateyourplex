@@ -31,7 +31,7 @@ dl_Nzbget=https://nzbget.net/download/nzbget-latest-bin-linux.run
 
 dl_Lidarr=https://github.com/lidarr/Lidarr/releases/download/v0.6.2.883/Lidarr.develop.0.6.2.883.linux.tar.gz
 
-dl_Radarr=https://github.com/Radarr/Radarr/releases/download/v0.2.0.299/Radarr.develop.0.2.0.299.linux.tar.gz
+dl_Radarr="-L -O $( curl -s https://api.github.com/repos/Radarr/Radarr/releases | grep linux.tar.gz | grep browser_download_url | head -1 | cut -d \" -f 4 )"
 
 dl_Jackett=https://github.com/Jackett/Jackett/releases/download/v0.11.659/Jackett.Binaries.LinuxAMDx64.tar.gz
 
@@ -187,8 +187,8 @@ git clone https://github.com/evilhero/mylar -b development /$app_Dir/Mylar
 
 # Download and install Radarr
 # https://github.com/Radarr/Radarr
-wget $dl_Radarr
-tar -xzvf Radarr.develop.0.2.0.299.linux.tar.gz -C $app_Dir/
+curl $dl_Radarr
+tar -xzvf Radarr.develop.*.linux.tar.gz -C $app_Dir/
 rm -rf *.gz
 
 

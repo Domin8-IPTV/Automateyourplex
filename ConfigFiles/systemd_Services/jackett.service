@@ -7,7 +7,7 @@ User=plex
 Restart=always
 RestartSec=5
 Type=simple
-ExecStart=/usr/bin/mono --debug /opt/jackett/JackettConsole.exe --NoRestart
+ExecStart=/opt/Jackett/jackett --NoRestart
 TimeoutStopSec=20
 
 [Install]
