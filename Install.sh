@@ -256,6 +256,9 @@ sudo update-rc.d nzbdrone defaults
 sudo update-rc.d lazylibrarian enable
 sudo update-rc.d mylar enable
 sudo update-rc.d nzbdrone enable
+
+sudo cp ConfigFiles/etc-default_Services/* /etc/default/
+
 ##############################  End Of Section ################################
 
 ## Everything is completed, reboot and all will be working upon startup.
