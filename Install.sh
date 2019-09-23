@@ -106,7 +106,7 @@ mkdir FUSE tempStorage
 cd FUSE
 mkdir mergerfs
 cd mergerfs
-mkdir gdrive
+mkdir gdrive tmp_upload
 cd $driveArray/tempStorage
 mkdir deluge lazylibrarian lidarr radarr rclone_tmp_upload Sonarr
 
