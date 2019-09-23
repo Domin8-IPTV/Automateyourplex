@@ -20,7 +20,7 @@ prgrmtrgt1=/home/plex/.config/NzbDrone/Backups/scheduled/
 prgrmtrgt2=/home/plex/.config/Radarr/Backups/scheduled/
 
 # lidarr
-prgrmtrgt3=/home/pplex/.config/Lidarr/Backups/scheduled/
+prgrmtrgt3=/home/plex/.config/Lidarr/Backups/scheduled/
 
 # NzbGet
 prgrmtrgt4=/opt/nzbget/nzbget.conf
